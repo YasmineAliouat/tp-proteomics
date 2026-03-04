@@ -382,8 +382,7 @@ Completer le tableau ci-dessous avec les quantités vous semblant adéquates pou
 | k | nombre de succès observés| nombre de protéines surabondantes qui portent un terme GO donné dans la liste “surabondantes |
 | K | nombre de succès possibles|nombre total de protéines dans tout le protéome qui portent ce terme GO |
 | n | nombre d'observations|nombre total de protéines surabondantes |
-| N | nombre d'elements observables| 
-nombre total de protéines |
+| N | nombre d'elements observables| nombre total de protéines |
 
 #### 4. Calcul de l'enrichissement en fonctions biologiques
 
