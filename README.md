@@ -132,34 +132,42 @@ df = pandas.read_csv()
 
 Quel est le type de l'objet `df`?
 ```
-
+C'est un data-frame
 ```
 
 ##### Descriptions d'une table de données
 Que permettent les méthodes suivantes?
 ###### df.shape
 ```
+Voir le nombre de lignes et de colonne du data frame . Ici : (2024, 7)
 ```
 ###### df.head()
 ```
+Affiche le header du data frame.
 ```
 ###### df.tail()
 ```
+Affiche les dérnières lignes du data frame.
 ```
 ###### df.columns
 ```
+Affiche les noms des colonnes du data frame
 ```
 ###### df.dtypes
 ```
+Affiche les types des colonnes du data frame
 ```
 ###### df.info
 ```
+Affiche les premiéres et les dérnères lignes du df
 ```
 ###### df.describe()
 ```
+Affiche des statistiques de la colonne float
 ```
 ###### df.dropna()
 ```
+Supprime du df toutes les lignes et colonnes qui contiennet des valeurs manquates.
 ```
 
 ##### Accès aux éléments d'une table de données
@@ -169,6 +177,9 @@ values = df[['Description', 'Gene Symbol']]
 ```
 
 Quel est le type de `values` ?
+```
+c'est un str (Châine ce caractères)
+```
 
 Verifiez si certaines méthodes de `DataFrame` lui sont applicables.
 Ce type supporte l'accès par indice et les slice `[a:b]`
@@ -179,17 +190,17 @@ On peut accéder aux valeurs du DataFrame via des indices ou plages d'indice. La
 Il y a différentes manières de le faire, l'utilisation de `.iloc[slice_ligne,slice_colonne]` constitue une des solutions les plus simples. N'oublions pas que shape permet d'obtenir les dimensions (lignes et colonnes) du DataFrame.
 ###### Acceder aux cinq premières lignes de toutes les colonnes
 ```python
-
+df.iloc[:5, :]
 ```
 
 ###### Acceder à toutes les lignes de la dernière colonne
 ```python
-
+df.iloc[:, -1]
 ```
 
 ###### Acceder aux cinq premières lignes des colonnes 0, 2 et 3
 ```python
-
+df.iloc[:5, [0, 2, 3]]
 ```
 
 ##### Conversion de type
@@ -241,7 +252,8 @@ df.loc[ df['Gene Symbol'].isin(['fadR', 'arcA'] ) ]
 
 ##### 3. A partir de cette échantillon de ratio d'abondance,  estimez la moyenne $\mu$ et l'ecart-type $\sigma$ d'une loi normale.
 ```
-
+mu = -0.6467130248461945
+sigma = 0.46723442417098815
 
 ```
 
@@ -258,12 +270,12 @@ scale = len(_)*dx # scale accordingly
 ax.plot(x, norm.pdf(x, mu, sigma)*scale) # compute theoritical PDF and draw it
 ```
 
-![Histogramme à inserez ici](histogram_log2FC.png "Title")
+![Histogramme à inserez ici](histogram_log2FC.png "histogram_log2FC")
 
 ##### 5. Quelles remarques peut-on faire à l'observation de l'histogramme et de la loi théorique?
 
 ```
-
+La distribution des valeurs ne suit pas une loi Normale.
 
 ```
 
@@ -277,7 +289,7 @@ Sont condidérées comme surabondantes les proteines remplissant ces deux critè
 * $\text{Log}_2(\text{abundance ratio})\gt\mu%2B\sigma$
 * $\text{p-value}<0.001$
 
-![Volcano plot + quadrant à inserez ici](histogram_log2FC.png "Title")
+![Volcano plot + quadrant à inserez ici](Volcano_plot.png "Volcano_plot")
 
 ### Analyse Fonctionelle de pathway
 
@@ -287,9 +299,7 @@ Nous allons implementer une approche ORA (Over Representation Analysis) naive.
 
 Quelles sont leurs identifiants UNIPROT ?
 ``` 
-
-
-
+['P23721', 'P77804', 'P0A6K6', 'P0A799', 'P0A7G6', 'P0A6F3', 'P25745', 'P0A6M8', 'P0A6L0', 'P0A8V6', 'P0A9Q1', 'P02358', 'P0ACF8', 'P62399', 'P0A905', 'P76506', 'P13036', 'P10384', 'P06971', 'P0A910', 'P06996', 'P76344', 'P02931']
 ```
 
 #### 2. Listez les termes GO portés par ces protéines surabondates
@@ -345,6 +355,18 @@ Ce dictionnaire pourrait être de la forme suivante:
                 }
   }
 ```
+Résultats:
+```
+[('GO:0005829', 'C:cytosol'),
+ ('GO:0003677', 'F:DNA binding'),
+ ('GO:0003700', 'F:DNA-binding transcription factor activity'),
+ ('GO:0000062', 'F:fatty-acyl-CoA binding'),
+ ('GO:0019395', 'P:fatty acid oxidation'),
+ ('GO:0045892', 'P:negative regulation of transcription, DNA-templated'),
+ ('GO:0045723', 'P:positive regulation of fatty acid biosynthetic process'),
+ ('GO:0045893', 'P:positive regulation of transcription, DNA-templated'),
+ ('GO:0019217', 'P:regulation of fatty acid metabolic process')]
+```
 Vous implémenterez la construction de ce dictionnaire et ainsi stockerez, pour la suite de l'analyse, les représentations des termes GO parmi les protéines surabondantes.
 
 #### 3. Obtention des paramètres du modèle
@@ -357,10 +379,11 @@ Completer le tableau ci-dessous avec les quantités vous semblant adéquates pou
 
 | Symboles | Paramètres | Quantités Biologiques |
 | --- | --- | --- |
-| k | nombre de succès observés| |
-| K | nombre de succès possibles| |
-| n | nombre d'observations| |
-| N | nombre d'elements observables| |
+| k | nombre de succès observés| nombre de protéines surabondantes qui portent un terme GO donné dans la liste “surabondantes |
+| K | nombre de succès possibles|nombre total de protéines dans tout le protéome qui portent ce terme GO |
+| n | nombre d'observations|nombre total de protéines surabondantes |
+| N | nombre d'elements observables| 
+nombre total de protéines |
 
 #### 4. Calcul de l'enrichissement en fonctions biologiques
 
@@ -369,9 +392,21 @@ de chaque terme GO portés par les protéines surabondantes. Vous reporterez ces
 
 | identifiant GO | définition | occurence | pvalue|
 |---|---|---|---|
-|   |   |   |   |
+|  GO:0009279 | C:cell outer membrane  |  8 | 0.000031  |
+| GO:0009264  |  P:deoxyribonucleotide catabolic process |  2 |  0.000141 |
+| GO:0034220 	  |  P:ion transmembrane transport |  3 |   	0.000322 |
+|  	GO:0046930  |  C:pore complex |  3 |  0.001341 |
+| GO:0009264  |  P:deoxyribonucleotide catabolic process |  2 |  0.000141 |
+| GO:0015288  |  F:porin activity |  3 |  0.001565 |
+| GO:0038023  |  F:signaling receptor activity |  2 |  0.002059 |
+| GO:0015344  |   	F:siderophore uptake transmembrane transporter |  2 |  0.003787 |
 
 Quelle interpretation biologique faites-vous de cet enrichissement en termes GO ?
+
+```
+Aprés analyse des termes GO, on observe une surreprésentation des termes associés à la membrane externe bactérienne, complexes de pores et au transport transmembranaire. Ces fonctions jouent un rôle dans la perméabilité membraneire et aux systèmes de transport moléculaire.
+Cela peut indiquer que des processus s'activent pour expulser les antibiotique hors de la cellule et réduire leur concentretion intracellulaire. Ce qui est cohérent dans le cadre de notre étude d'efflux AcrAB-TolC.
+```
 
 
 ### Analyse des interactions répertoriées dans STRING
