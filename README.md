@@ -159,7 +159,7 @@ Affiche les types des colonnes du data frame
 ```
 ###### df.info
 ```
-Affiche les premiéres et les dérnères lignes du df
+Affiche les premiéres et les dérnères lignes du data-frame
 ```
 ###### df.describe()
 ```
@@ -167,7 +167,7 @@ Affiche des statistiques de la colonne float
 ```
 ###### df.dropna()
 ```
-Supprime du df toutes les lignes et colonnes qui contiennet des valeurs manquates.
+Supprime du data-frame toutes les lignes et colonnes qui contiennet des valeurs manquates.
 ```
 
 ##### Accès aux éléments d'une table de données
@@ -178,7 +178,7 @@ values = df[['Description', 'Gene Symbol']]
 
 Quel est le type de `values` ?
 ```
-c'est un str (Châine ce caractères)
+C'est un str (châine de caractères)
 ```
 
 Verifiez si certaines méthodes de `DataFrame` lui sont applicables.
@@ -382,7 +382,7 @@ Completer le tableau ci-dessous avec les quantités vous semblant adéquates pou
 | k | nombre de succès observés| nombre de protéines surabondantes qui portent un terme GO donné dans la liste “surabondantes |
 | K | nombre de succès possibles|nombre total de protéines dans tout le protéome qui portent ce terme GO |
 | n | nombre d'observations|nombre total de protéines surabondantes |
-| N | nombre d'elements observables| nombre total de protéines |
+| N | nombre d'éléments observables| nombre total de protéines |
 
 #### 4. Calcul de l'enrichissement en fonctions biologiques
 
